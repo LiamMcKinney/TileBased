@@ -10,11 +10,13 @@ public class PlayerBehavior : LivingThing
     public Camera camera;
     public Vector3 camOffset;
     public EnemyManager enemyManager;
+    Vector2 lastDirectionalInputs;
     // Start is called before the first frame update
     void Start()
     {
         base.Start();
         counter = 0;
+        lastDirectionalInputs = new Vector2(0, 0);
     }
 
     // Update is called once per frame
@@ -25,6 +27,10 @@ public class PlayerBehavior : LivingThing
         vertic = Input.GetAxisRaw("Vertical");
         if (horiz != 0 || vertic != 0)
         {
+            if(lastDirectionalInputs != new Vector2(horiz, vertic))
+            {
+                counter = 101;
+            }
             if (counter > 100)
             {
                 Collider2D[] obstacles = Physics2D.OverlapBoxAll(new Vector2(horiz+transform.position.x, vertic+transform.position.y), new Vector2(.9f, .9f), 0);
@@ -37,6 +43,7 @@ public class PlayerBehavior : LivingThing
             }
         }
         camera.transform.position = transform.position + camOffset;
+        lastDirectionalInputs = new Vector2(horiz, vertic);
     }
 
     private void Move(float x, float y)

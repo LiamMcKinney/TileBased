@@ -29,7 +29,7 @@ public abstract class Item : MonoBehaviour
         }
     }
 
-    public void Use(PlayerBehavior player)
+    public abstract void Use(PlayerBehavior player)
     {
 
     }

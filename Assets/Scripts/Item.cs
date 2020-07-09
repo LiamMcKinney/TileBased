@@ -29,10 +29,6 @@ public abstract class Item : MonoBehaviour
         }
     }
 
-    public virtual void Use(PlayerBehavior player)
-    {
-
-    }
-
+    public abstract void Use(PlayerBehavior player);
     
 }

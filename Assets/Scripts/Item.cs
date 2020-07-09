@@ -6,15 +6,15 @@ public abstract class Item : MonoBehaviour
 {
     public string name;
     public int charges;
-    bool isInInventory;
+    protected bool isInInventory;
     // Start is called before the first frame update
-    void Start()
+    protected void Start()
     {
         isInInventory = false;
     }
 
     // Update is called once per frame
-    void Update()
+    protected void Update()
     {
         Collider2D[] obstacles = Physics2D.OverlapBoxAll(transform.position, new Vector2(.9f, .9f), 0);
 

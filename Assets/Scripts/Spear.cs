@@ -18,8 +18,7 @@ public class Spear : Item
         base.Update();
     }
 
-    override
-    public void Use(PlayerBehavior player)
+    public override void Use(PlayerBehavior player)
     {
         Vector2 direction = player.lastDirectionalInputs;
         Collider2D thing1 = Physics2D.OverlapPoint(new Vector3(direction.x, direction.y, 0) + player.transform.position);
@@ -35,7 +34,7 @@ public class Spear : Item
         {
             if (thing2.GetComponent<LivingThing>() != null)
             {
-                thing2.GetComponent<LivingThing>().Hurt(damage);
+                thing2.GetComponent<LivingThing>().Hurt(player.damage);
             }
         }
     }

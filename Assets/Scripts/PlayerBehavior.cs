@@ -12,7 +12,7 @@ public class PlayerBehavior : LivingThing
     public Camera camera;
     public Vector3 camOffset;
     public EnemyManager enemyManager;
-    Vector2 lastDirectionalInputs;
+    public Vector2 lastDirectionalInputs;
     bool attacking;
     public int damage;
     public int maxHP;

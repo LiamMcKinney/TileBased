@@ -24,7 +24,7 @@ public class EnemyBehavior : LivingThing
     // Update is called once per frame
     void Update()
     {
-        targetPos = target.transform.position;
+
         if (isDead)
         {
             sprite.color = deadColor;
@@ -39,6 +39,7 @@ public class EnemyBehavior : LivingThing
             GetComponent<BoxCollider2D>().enabled = false;
             return;
         }
+        targetPos = target.transform.position;
         targetXDist = targetPos.x - transform.position.x;
         targetYDist = targetPos.y - transform.position.y;
         targetDistSqrd = (targetXDist * targetXDist) + (targetYDist * targetYDist);

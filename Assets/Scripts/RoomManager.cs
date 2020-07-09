@@ -64,11 +64,13 @@ public class RoomManager : MonoBehaviour {
         {
             instance.grid = grid;
 
+            instance.GenerateMap();
+
             Destroy(enemyManager.gameObject);
             Destroy(player.gameObject);
             Destroy(cam.gameObject);
             Destroy(ui.gameObject);
-            Destroy(gameObject);
+            DestroyImmediate(gameObject);
         }
 
         DontDestroyOnLoad(gameObject);
@@ -184,11 +186,6 @@ public class RoomManager : MonoBehaviour {
         {
             position = location;
         }
-    }
-
-    private void OnLevelWasLoaded(int level)
-    {
-        GenerateMap();
     }
 
     private void Update()

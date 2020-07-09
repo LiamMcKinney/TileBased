@@ -27,9 +27,13 @@ public class PlayerBehavior : LivingThing
         {
             if (counter > 100)
             {
-                Move(horiz, vertic);
-                enemyManager.Step();
-                counter = 0;
+                Collider2D[] obstacles = Physics2D.OverlapBoxAll(new Vector2(horiz+transform.position.x, vertic+transform.position.y), new Vector2(.9f, .9f), 0);
+                if (obstacles.Length == 0)
+                {
+                    Move(horiz, vertic);
+                    enemyManager.Step();
+                    counter = 0;
+                }
             }
         }
         camera.transform.position = transform.position + camOffset;
@@ -38,6 +42,6 @@ public class PlayerBehavior : LivingThing
     private void Move(float x, float y)
     {
         Vector3 oldPos = transform.position;
-        transform.position = new Vector3(oldPos.x+x, oldPos.y+y, oldPos.z);
+        transform.position = new Vector3(x,y,0)+oldPos;
     }
 }

@@ -14,7 +14,14 @@ public class EnemyManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        foreach(EnemyBehavior e in enemies)
+        {
+            if (e.isDead)
+            {
+                enemies.Remove(e);
+                break;
+            }
+        }
     }
     
     public void Step()

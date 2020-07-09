@@ -13,6 +13,7 @@ public class PlayerBehavior : LivingThing
     Vector2 lastDirectionalInputs;
     bool attacking;
     public int damage;
+    public int maxHP;
     // Start is called before the first frame update
     void Start()
     {
@@ -72,5 +73,19 @@ public class PlayerBehavior : LivingThing
     {
         Vector3 oldPos = transform.position;
         transform.position = new Vector3(x,y,0)+oldPos;
+    }
+
+    public void Obtain(Item item)
+    {
+
+    }
+
+    public void Heal(int amount)
+    {
+        hp += amount;
+        if (maxHP < hp)
+        {
+            hp = maxHP;
+        }
     }
 }

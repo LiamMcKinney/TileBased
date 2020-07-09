@@ -2,20 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerBehavior : MonoBehaviour
+public class PlayerBehavior : LivingThing
 {
     float horiz;
     float vertic;
-    public int hp;
     int counter;
     public Camera camera;
     public Vector3 camOffset;
     public EnemyManager enemyManager;
-    public bool isDead;
     // Start is called before the first frame update
     void Start()
     {
-        isDead = false;
+        base.Start();
         counter = 0;
     }
 
@@ -41,14 +39,5 @@ public class PlayerBehavior : MonoBehaviour
     {
         Vector3 oldPos = transform.position;
         transform.position = new Vector3(oldPos.x+x, oldPos.y+y, oldPos.z);
-    }
-
-    public void Hurt(int dmg)
-    {
-        hp -= dmg;
-        if (hp < 0)
-        {
-            isDead = true;
-        }
     }
 }

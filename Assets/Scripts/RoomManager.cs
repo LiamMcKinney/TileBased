@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 
 public class RoomManager : MonoBehaviour {
     public int dungeonSize;
@@ -26,8 +27,16 @@ public class RoomManager : MonoBehaviour {
 
     private PlayerBehavior player;
 
+    public Canvas ui;
+    public Slider hpBar;
+    public Text floorText;
+    int floorNumber = 1;
+
 	// Use this for initialization
 	void Start () {
+        DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(ui);
+
         layout = new Dictionary<Vector2, Room>();
         GenerateDungeonPlan();
 

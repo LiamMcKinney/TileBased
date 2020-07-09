@@ -70,7 +70,8 @@ public class RoomManager : MonoBehaviour {
             Destroy(player.gameObject);
             Destroy(cam.gameObject);
             Destroy(ui.gameObject);
-            DestroyImmediate(gameObject);
+            Destroy(gameObject);
+            return;
         }
 
         DontDestroyOnLoad(gameObject);

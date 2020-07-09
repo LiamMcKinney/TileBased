@@ -63,6 +63,7 @@ public class RoomManager : MonoBehaviour {
         else
         {
             instance.grid = grid;
+            
 
             instance.GenerateMap();
 
@@ -89,6 +90,8 @@ public class RoomManager : MonoBehaviour {
         floorText.text = "Floor " + floorNumber;
 
         layout = new Dictionary<Vector2, Room>();
+        enemyManager.enemies.Clear();
+
         GenerateDungeonPlan();
 
         GenerateDungeon();

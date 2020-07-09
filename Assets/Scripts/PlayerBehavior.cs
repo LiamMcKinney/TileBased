@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.XR.WSA;
 
 public class PlayerBehavior : LivingThing
 {
@@ -106,7 +108,16 @@ public class PlayerBehavior : LivingThing
             if(inventory[i] == null)
             {
                 item.transform.parent = inventorySlots[i].transform;
+                item.transform.localPosition = Vector3.zero;
+
+                Image slotImage = inventorySlots[i].GetComponent<Image>();
+                SpriteRenderer itemSprite = item.GetComponent<SpriteRenderer>();
+                slotImage.sprite = itemSprite.sprite;
+                slotImage.color = itemSprite.color;
+                slotImage.enabled = true;
+
                 inventory[i] = item;
+                break;
             }
         }
     }
@@ -125,5 +136,6 @@ public class PlayerBehavior : LivingThing
         inventory[index].Use(this);
         Destroy(inventory[index].gameObject);
         inventory[index] = null;
+        inventorySlots[index].GetComponent<Image>().enabled = false;
     }
 }

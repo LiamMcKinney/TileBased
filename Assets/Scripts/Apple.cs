@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Apple : Item
 {
-    void Use(PlayerBehavior player)
+    public override void Use(PlayerBehavior player)
     {
         player.Heal(1);
     }

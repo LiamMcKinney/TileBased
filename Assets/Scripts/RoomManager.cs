@@ -107,6 +107,7 @@ public class RoomManager : MonoBehaviour {
 
             EnemyBehavior enemy = Instantiate(enemyPrefab, enemyPosition, Quaternion.identity).GetComponent<EnemyBehavior>();
             enemy.target = player;
+            enemy.isDead = true;
             enemyManager.enemies.Add(enemy);
         }
 

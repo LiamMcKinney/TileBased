@@ -10,21 +10,35 @@ public class EnemyBehavior : LivingThing
     float targetYDist;
     float targetDistSqrd;
     public float sightRange;
+
+    SpriteRenderer sprite;
+    public Color deadColor;
+    public float despawnTime;//how many frames until the dead enemy despawns.
     // Start is called before the first frame update
     void Start()
     {
         base.Start();
+        sprite = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
         targetPos = target.transform.position;
+        if (isDead)
+        {
+            sprite.color = deadColor;
+            Destroy(gameObject, despawnTime);
+        }
     }
 
     public void Move()
     {
-        
+        if (isDead)
+        {
+            GetComponent<BoxCollider2D>().enabled = false;
+            return;
+        }
         targetXDist = targetPos.x - transform.position.x;
         targetYDist = targetPos.y - transform.position.y;
         targetDistSqrd = (targetXDist * targetXDist) + (targetYDist * targetYDist);

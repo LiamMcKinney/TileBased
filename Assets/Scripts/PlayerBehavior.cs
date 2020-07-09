@@ -52,14 +52,11 @@ public class PlayerBehavior : LivingThing
                 }
                 else
                 {
-                    print("1");
                     Collider2D victim = Physics2D.OverlapPoint(new Vector3(horiz, vertic, 0) + transform.position);
                     if (victim != null)
                     {
-                        print("2");
                         if (victim.GetComponent<LivingThing>() != null)
                         {
-                            print("3");
                             victim.GetComponent<LivingThing>().Hurt(damage);
                             enemyManager.Step();
                             counter = 0;

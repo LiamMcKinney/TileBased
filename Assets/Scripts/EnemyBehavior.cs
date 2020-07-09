@@ -19,12 +19,13 @@ public class EnemyBehavior : LivingThing
     {
         base.Start();
         sprite = GetComponent<SpriteRenderer>();
+        Physics2D.autoSyncTransforms = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        
         if (isDead)
         {
             sprite.color = deadColor;

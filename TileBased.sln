@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileBased", "Assembly-CSharp.csproj", "{98D4AEBF-5AE9-ABA5-CAC8-F55EA7C10788}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{98D4AEBF-5AE9-ABA5-CAC8-F55EA7C10788}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

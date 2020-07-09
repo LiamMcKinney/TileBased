@@ -21,21 +21,69 @@ public class RoomManager : MonoBehaviour {
     Vector2 lastRoom;//coordinates of the last room generated
 
     public GameObject enemyPrefab;
-    public GameObject playerPrefab;
+    //public GameObject playerPrefab;
     public GameObject exitPrefab;
     public Camera cam;
 
-    private PlayerBehavior player;
+    public PlayerBehavior player;
 
     public Canvas ui;
     public Slider hpBar;
     public Text floorText;
-    int floorNumber = 1;
+    int floorNumber = 0;
 
-	// Use this for initialization
-	void Start () {
+    private static RoomManager instance;
+    void Awake()
+    {
+        //DontDestroyOnLoad(this);
+
+        //if (instance == null)
+        //{
+        //    instance = this;
+        //}
+        //else
+        //{
+        //    instance.grid = grid;
+
+        //    Destroy(enemyManager.gameObject);
+        //    Destroy(player.gameObject);
+        //    Destroy(cam.gameObject);
+        //    Destroy(ui.gameObject);
+        //    Destroy(gameObject);
+        //}
+    }
+
+    // Use this for initialization
+    void Start()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            instance.grid = grid;
+
+            Destroy(enemyManager.gameObject);
+            Destroy(player.gameObject);
+            Destroy(cam.gameObject);
+            Destroy(ui.gameObject);
+            Destroy(gameObject);
+        }
+
         DontDestroyOnLoad(gameObject);
-        DontDestroyOnLoad(ui);
+        DontDestroyOnLoad(ui.gameObject);
+        DontDestroyOnLoad(player.gameObject);
+        DontDestroyOnLoad(enemyManager.gameObject);
+        DontDestroyOnLoad(cam);
+
+        GenerateMap();
+    }
+
+    void GenerateMap()
+    {
+        floorNumber++;
+        floorText.text = "Floor " + floorNumber;
 
         layout = new Dictionary<Vector2, Room>();
         GenerateDungeonPlan();
@@ -49,7 +97,8 @@ public class RoomManager : MonoBehaviour {
         layout.Add(Vector2.zero, new Room(Vector2.zero));
 
         //generate and initialize player in the middle of the room
-        player = Instantiate(playerPrefab, new Vector2((int)(roomSize.x / 2) + .5f, (int)(roomSize.y / 2) + .5f), Quaternion.identity).GetComponent<PlayerBehavior>();
+        //player = Instantiate(playerPrefab, new Vector2((int)(roomSize.x / 2) + .5f, (int)(roomSize.y / 2) + .5f), Quaternion.identity).GetComponent<PlayerBehavior>();
+        player.transform.position = new Vector2((int)(roomSize.x / 2) + .5f, (int)(roomSize.y / 2) + .5f);
         player.enemyManager = enemyManager;
         player.camera = cam;
 
@@ -135,5 +184,15 @@ public class RoomManager : MonoBehaviour {
         {
             position = location;
         }
+    }
+
+    private void OnLevelWasLoaded(int level)
+    {
+        GenerateMap();
+    }
+
+    private void Update()
+    {
+        hpBar.value = (float)player.hp / 5f;
     }
 }

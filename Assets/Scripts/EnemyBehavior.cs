@@ -29,6 +29,7 @@ public class EnemyBehavior : LivingThing
         if (isDead)
         {
             sprite.color = deadColor;
+            sprite.sortingOrder = -2;
             Destroy(gameObject, despawnTime);
         }
     }

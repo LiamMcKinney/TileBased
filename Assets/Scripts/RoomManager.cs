@@ -161,18 +161,22 @@ public class RoomManager : MonoBehaviour {
             grid.SetTile(new Vector3Int((int)(baseCorner.x + roomSize.x) - 1, i, 0), (i == exitCoords.y && !walledExits.Contains(Vector2.right)) ? null : wallTile);
         }
 
-        //calculate the number of enemies to spawn in the room based on distance from the start.
-        int numEnemies = (int)(initialDifficulty + position.magnitude * difficultyScaling);
-
-        for(int i=0; i<numEnemies; i++)
+        //don't spawn enemies in the starting room.
+        if (position != Vector2.zero)
         {
-            //generate the enemy at a random position in the room.
-            Vector2 enemyPosition = baseCorner + new Vector2(Random.Range(1, (int)roomSize.x - 2), Random.Range(1, (int)roomSize.y - 2)) + new Vector2(.5f, .5f);
+            //calculate the number of enemies to spawn in the room based on distance from the start.
+            int numEnemies = (int)(initialDifficulty + position.magnitude * difficultyScaling);
 
-            EnemyBehavior enemy = Instantiate(enemyPrefab, enemyPosition, Quaternion.identity).GetComponent<EnemyBehavior>();
-            enemy.target = player;
-            enemy.isDead = true;
-            enemyManager.enemies.Add(enemy);
+            for (int i = 0; i < numEnemies; i++)
+            {
+                //generate the enemy at a random position in the room.
+                Vector2 enemyPosition = baseCorner + new Vector2(Random.Range(1, (int)roomSize.x - 2), Random.Range(1, (int)roomSize.y - 2)) + new Vector2(.5f, .5f);
+
+                EnemyBehavior enemy = Instantiate(enemyPrefab, enemyPosition, Quaternion.identity).GetComponent<EnemyBehavior>();
+                enemy.target = player;
+                enemy.isDead = true;
+                enemyManager.enemies.Add(enemy);
+            }
         }
 
         if (hasExit)

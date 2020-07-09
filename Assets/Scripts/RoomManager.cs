@@ -194,6 +194,6 @@ public class RoomManager : MonoBehaviour {
 
     private void Update()
     {
-        hpBar.value = (float)player.hp / 5f;
+        hpBar.value = (float)player.hp / player.maxHP;
     }
 }

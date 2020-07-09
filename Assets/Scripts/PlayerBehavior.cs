@@ -14,6 +14,10 @@ public class PlayerBehavior : LivingThing
     bool attacking;
     public int damage;
     public int maxHP;
+
+    public GameObject[] inventorySlots = new GameObject[3];
+
+    public Item[] inventory = new Item[3];
     // Start is called before the first frame update
     void Start()
     {
@@ -33,7 +37,27 @@ public class PlayerBehavior : LivingThing
         horiz = Input.GetAxisRaw("Horizontal");
         vertic = Input.GetAxisRaw("Vertical");
         attacking = Input.GetKey("space");
-        if (horiz != 0 || vertic != 0)
+
+        bool isUsingSlot1 = Input.GetKeyDown("1");
+        bool isUsingSlot2 = Input.GetKeyDown("2");
+        bool isUsingSlot3 = Input.GetKeyDown("3");
+
+        if (isUsingSlot1 && inventory[0] != null)
+        {
+            UseItem(0);
+            enemyManager.Step();
+        }
+        else if (isUsingSlot2 && inventory[1] != null)
+        {
+            UseItem(1);
+            enemyManager.Step();
+        }
+        else if (isUsingSlot3 && inventory[2] != null)
+        {
+            UseItem(2);
+            enemyManager.Step();
+        }
+        else if (horiz != 0 || vertic != 0)
         {
             if(lastDirectionalInputs != new Vector2(horiz, vertic))
             {
@@ -77,7 +101,14 @@ public class PlayerBehavior : LivingThing
 
     public void Obtain(Item item)
     {
-
+        for(int i = 0; i < 3; i++)
+        {
+            if(inventory[i] == null)
+            {
+                item.transform.parent = inventorySlots[i].transform;
+                inventory[i] = item;
+            }
+        }
     }
 
     public void Heal(int amount)
@@ -87,5 +118,12 @@ public class PlayerBehavior : LivingThing
         {
             hp = maxHP;
         }
+    }
+
+    void UseItem(int index)
+    {
+        inventory[index].Use(this);
+        Destroy(inventory[index].gameObject);
+        inventory[index] = null;
     }
 }

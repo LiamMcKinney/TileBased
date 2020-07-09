@@ -6,6 +6,7 @@ public abstract class LivingThing : MonoBehaviour
 {
     public int hp;
     public bool isDead;
+    public int money;
     // Start is called before the first frame update
     protected void Start()
     {
@@ -25,5 +26,10 @@ public abstract class LivingThing : MonoBehaviour
         {
             isDead = true;
         }
+    }
+
+    public void collect(int amount)
+    {
+        money += amount;
     }
 }

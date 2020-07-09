@@ -19,7 +19,7 @@ public class PlayerBehavior : LivingThing
         base.Start();
         counter = 0;
         lastDirectionalInputs = new Vector2(0, 0);
-        if(damage == 0)
+        if(damage == null)
         {
             damage = 1;
         }
@@ -59,7 +59,6 @@ public class PlayerBehavior : LivingThing
                         {
                             victim.GetComponent<LivingThing>().Hurt(damage);
                             enemyManager.Step();
-                            counter = 0;
                         }
                     }
                 }

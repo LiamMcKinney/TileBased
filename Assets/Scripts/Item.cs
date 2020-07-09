@@ -24,7 +24,7 @@ public abstract class Item : MonoBehaviour
 
             if (player != null)
             {
-                player.obtain(this);
+                player.Obtain(this);
             }
         }
     }

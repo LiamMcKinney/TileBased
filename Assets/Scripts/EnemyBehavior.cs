@@ -47,8 +47,13 @@ public class EnemyBehavior : LivingThing
         {
             vertic = 1;
         }
-        transform.position = new Vector3(horiz, vertic, 0)+oldPos;
-        if(transform.position == targetPos)
+        Vector3 moveVector = new Vector3(horiz, vertic, 0);
+        Collider2D[] obstacles = Physics2D.OverlapBoxAll(new Vector2(horiz + transform.position.x, vertic + transform.position.y), new Vector2(.9f, .9f), 0);
+        if (obstacles.Length == 0)
+        {
+            transform.position = moveVector + oldPos;
+        }
+        else if(moveVector+oldPos == targetPos)
         {
             target.Hurt(1);
         }

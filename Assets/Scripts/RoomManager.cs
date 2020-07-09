@@ -8,13 +8,19 @@ public class RoomManager : MonoBehaviour {
     public Vector2 roomSize;//dimensions of a room
     Dictionary<Vector2, Room> layout;
 
-    public GameObject roomPrefab;
-    public GameObject hallwayPrefab;
-    public float roomSpacingScale;
-    public float hallwayOffset;
-
     public Tilemap grid;
     public Tile wallTile;
+
+    public EnemyManager enemyManager;
+
+    public float initialDifficulty;
+    public float difficultyScaling;
+
+    public GameObject enemyPrefab;
+    public GameObject playerPrefab;
+    public Camera cam;
+
+    private PlayerBehavior player;
 
 	// Use this for initialization
 	void Start () {
@@ -26,7 +32,14 @@ public class RoomManager : MonoBehaviour {
 
     void GenerateDungeonPlan()
     {
+        //generate first room
         layout.Add(Vector2.zero, new Room(Vector2.zero));
+
+        //generate and initialize player in the middle of the room
+        player = Instantiate(playerPrefab, new Vector2((int)(roomSize.x / 2) + .5f, (int)(roomSize.y / 2) + .5f), Quaternion.identity).GetComponent<PlayerBehavior>();
+        player.enemyManager = enemyManager;
+        player.camera = cam;
+
 
         while (layout.Count < dungeonSize)
         {
@@ -58,18 +71,6 @@ public class RoomManager : MonoBehaviour {
     {
         foreach(Vector2 key in layout.Keys)
         {
-            //Instantiate(roomPrefab, key * roomSpacingScale, Quaternion.identity);
-
-            //List<Vector2> usedExits = new List<Vector2>(new Vector2[] { Vector2.up, Vector2.down, Vector2.left, Vector2.right });
-            /*foreach(Vector2 exit in layout[key].openExits)
-            {
-                usedExits.Remove(exit);
-            }*/
-
-            /*foreach(Vector2 exit in usedExits)
-            {
-                Instantiate(hallwayPrefab, (key * roomSpacingScale) + (exit * hallwayOffset), Quaternion.identity);
-            }*/
             CreateRoom(key, layout[key].openExits);
         }
     }
@@ -89,6 +90,19 @@ public class RoomManager : MonoBehaviour {
         {
             grid.SetTile(new Vector3Int((int)baseCorner.x, i, 0), (i == exitCoords.y && !walledExits.Contains(Vector2.left)) ? null : wallTile);
             grid.SetTile(new Vector3Int((int)(baseCorner.x + roomSize.x) - 1, i, 0), (i == exitCoords.y && !walledExits.Contains(Vector2.right)) ? null : wallTile);
+        }
+
+        //calculate the number of enemies to spawn in the room based on distance from the start.
+        int numEnemies = (int)(initialDifficulty + position.magnitude * difficultyScaling);
+
+        for(int i=0; i<numEnemies; i++)
+        {
+            //generate the enemy at a random position in the room.
+            Vector2 enemyPosition = baseCorner + new Vector2(Random.Range(1, (int)roomSize.x - 2), Random.Range(1, (int)roomSize.y - 2)) + new Vector2(.5f, .5f);
+
+            EnemyBehavior enemy = Instantiate(enemyPrefab, enemyPosition, Quaternion.identity).GetComponent<EnemyBehavior>();
+            enemy.target = player;
+            enemyManager.enemies.Add(enemy);
         }
     }
 

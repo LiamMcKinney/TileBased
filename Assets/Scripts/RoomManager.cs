@@ -13,11 +13,15 @@ public class RoomManager : MonoBehaviour {
 
     public EnemyManager enemyManager;
 
+    //values to control how many enemies spawn in each room.
     public float initialDifficulty;
     public float difficultyScaling;
 
+    Vector2 lastRoom;//coordinates of the last room generated
+
     public GameObject enemyPrefab;
     public GameObject playerPrefab;
+    public GameObject exitPrefab;
     public Camera cam;
 
     private PlayerBehavior player;
@@ -60,6 +64,7 @@ public class RoomManager : MonoBehaviour {
             if(!layout.ContainsKey(nextRoom.position + exitDir))
             {
                 layout.Add(nextRoom.position + exitDir, new Room(nextRoom.position + exitDir));
+                lastRoom = nextRoom.position + exitDir;
             }
 
             nextRoom.openExits.Remove(exitDir);
@@ -71,11 +76,11 @@ public class RoomManager : MonoBehaviour {
     {
         foreach(Vector2 key in layout.Keys)
         {
-            CreateRoom(key, layout[key].openExits);
+            CreateRoom(key, layout[key].openExits, key.Equals(lastRoom));
         }
     }
 
-    void CreateRoom(Vector2 position, List<Vector2> walledExits)
+    void CreateRoom(Vector2 position, List<Vector2> walledExits, bool hasExit)
     {
         Vector2 baseCorner = new Vector2(position.x * roomSize.x, position.y * roomSize.y);//coordinates of the bottom left corner of the room.
         Vector2 exitCoords = new Vector2(baseCorner.x + (int)(roomSize.x / 2), baseCorner.y + (int)(roomSize.y / 2));
@@ -103,6 +108,11 @@ public class RoomManager : MonoBehaviour {
             EnemyBehavior enemy = Instantiate(enemyPrefab, enemyPosition, Quaternion.identity).GetComponent<EnemyBehavior>();
             enemy.target = player;
             enemyManager.enemies.Add(enemy);
+        }
+
+        if (hasExit)
+        {
+            Instantiate(exitPrefab, baseCorner + new Vector2(Random.Range(1, (int)roomSize.x - 2), Random.Range(1, (int)roomSize.y - 2)) + new Vector2(.5f, .5f), Quaternion.identity);
         }
     }
 

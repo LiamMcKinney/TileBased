@@ -142,13 +142,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dungeonSize: 10
   roomSize: {x: 11, y: 11}
-  roomPrefab: {fileID: 1182021049921870, guid: 962b099f5ac8d5d45a8199c8b5d2cd6e, type: 2}
-  hallwayPrefab: {fileID: 1195340718897712, guid: 9a468bee1d51e854a9a266e55f1e6a8d,
-    type: 2}
-  roomSpacingScale: 2
-  hallwayOffset: 0.9
   grid: {fileID: 934595378}
   wallTile: {fileID: 11400000, guid: a680c4aac3475854f8175d149e9fa367, type: 2}
+  enemyManager: {fileID: 1789775907}
+  initialDifficulty: 1
+  difficultyScaling: 1
+  enemyPrefab: {fileID: 1517841924324074, guid: 6990a074ead659849be098274af213fc,
+    type: 2}
+  playerPrefab: {fileID: 1894197196906854, guid: 78b7a9e2f1896e54da1fb58e534b500c,
+    type: 2}
+  exitPrefab: {fileID: 1217337262449990, guid: 95c1d6cd1b3c996438658fb073937967, type: 2}
+  cam: {fileID: 1524482522}
 --- !u!4 &793149621
 Transform:
   m_ObjectHideFlags: 0
@@ -360,6 +364,47 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1789775906
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1789775908}
+  - component: {fileID: 1789775907}
+  m_Layer: 0
+  m_Name: Enemy Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1789775907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1789775906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54cd20be3ce82044486056194825652b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemies: []
+--- !u!4 &1789775908
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1789775906}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.4819427, y: 0.9101909, z: -0.8375}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2135400403
 GameObject:

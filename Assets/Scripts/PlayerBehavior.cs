@@ -19,7 +19,7 @@ public class PlayerBehavior : LivingThing
         base.Start();
         counter = 0;
         lastDirectionalInputs = new Vector2(0, 0);
-        if(damage == null)
+        if(damage == 0)
         {
             damage = 1;
         }

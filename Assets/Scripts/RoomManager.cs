@@ -11,6 +11,7 @@ public class RoomManager : MonoBehaviour {
 
     public Tilemap grid;
     public Tile wallTile;
+    public Tile groundTile;
 
     public EnemyManager enemyManager;
 
@@ -23,6 +24,7 @@ public class RoomManager : MonoBehaviour {
     public GameObject enemyPrefab;
     //public GameObject playerPrefab;
     public GameObject exitPrefab;
+    public GameObject goldPrefab;
     public Camera cam;
 
     public PlayerBehavior player;
@@ -30,6 +32,7 @@ public class RoomManager : MonoBehaviour {
     public Canvas ui;
     public Slider hpBar;
     public Text floorText;
+    public Text goldText;
     int floorNumber = 0;
 
     private static RoomManager instance;
@@ -151,14 +154,19 @@ public class RoomManager : MonoBehaviour {
 
         for(int i = (int)baseCorner.x; i < baseCorner.x + roomSize.x; i++)
         {
-            grid.SetTile(new Vector3Int(i, (int)baseCorner.y, 0), (i==exitCoords.x && !walledExits.Contains(Vector2.down)) ? null : wallTile);
-            grid.SetTile(new Vector3Int(i, (int)(baseCorner.y + roomSize.y) - 1, 0), (i == exitCoords.x && !walledExits.Contains(Vector2.up)) ? null : wallTile);
-        }
 
-        for (int i = (int)baseCorner.y; i < baseCorner.y + roomSize.y; i++)
-        {
-            grid.SetTile(new Vector3Int((int)baseCorner.x, i, 0), (i == exitCoords.y && !walledExits.Contains(Vector2.left)) ? null : wallTile);
-            grid.SetTile(new Vector3Int((int)(baseCorner.x + roomSize.x) - 1, i, 0), (i == exitCoords.y && !walledExits.Contains(Vector2.right)) ? null : wallTile);
+            for (int j = (int)baseCorner.y; j < baseCorner.y + roomSize.y; j++)
+            {
+                grid.SetTile(new Vector3Int(i, j, 0), groundTile);
+                if (i == baseCorner.x + roomSize.x - 1)
+                {
+                    grid.SetTile(new Vector3Int((int)baseCorner.x, j, 0), (j == exitCoords.y && !walledExits.Contains(Vector2.left)) ? groundTile : wallTile);
+                    grid.SetTile(new Vector3Int((int)(baseCorner.x + roomSize.x) - 1, j, 0), (j == exitCoords.y && !walledExits.Contains(Vector2.right)) ? groundTile : wallTile);
+                }
+            }
+
+            grid.SetTile(new Vector3Int(i, (int)baseCorner.y, 0), (i == exitCoords.x && !walledExits.Contains(Vector2.down)) ? groundTile : wallTile);
+            grid.SetTile(new Vector3Int(i, (int)(baseCorner.y + roomSize.y) - 1, 0), (i == exitCoords.x && !walledExits.Contains(Vector2.up)) ? groundTile : wallTile);
         }
 
         //don't spawn enemies in the starting room.
@@ -174,9 +182,17 @@ public class RoomManager : MonoBehaviour {
 
                 EnemyBehavior enemy = Instantiate(enemyPrefab, enemyPosition, Quaternion.identity).GetComponent<EnemyBehavior>();
                 enemy.target = player;
-                enemy.isDead = true;
+                //enemy.isDead = true;
                 enemyManager.enemies.Add(enemy);
             }
+        }
+
+        //if it's a dead end, add a coin as a reward.
+        if(walledExits.Count == 3)
+        {
+            Vector2 goldPosition = baseCorner + new Vector2(Random.Range(1, (int)roomSize.x - 2), Random.Range(1, (int)roomSize.y - 2)) + new Vector2(.5f, .5f);
+
+            Instantiate(goldPrefab, goldPosition, Quaternion.identity);
         }
 
         if (hasExit)
@@ -199,5 +215,6 @@ public class RoomManager : MonoBehaviour {
     private void Update()
     {
         hpBar.value = (float)player.hp / player.maxHP;
+        goldText.text = "Gold: " + player.money;
     }
 }

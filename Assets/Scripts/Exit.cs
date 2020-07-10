@@ -15,9 +15,9 @@ public class Exit : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         //RAINBOWWWW
-        hue += rainbowSpeed;
-        hue %= 1;
-        sprite.color = Color.HSVToRGB(hue, 1, 1);
+        //hue += rainbowSpeed;
+        //hue %= 1;
+        //sprite.color = Color.HSVToRGB(hue, 1, 1);
 
         //check for collision with a player. If so, win.
         Collider2D[] obstacles = Physics2D.OverlapBoxAll(transform.position, new Vector2(.9f, .9f), 0);

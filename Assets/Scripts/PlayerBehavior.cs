@@ -17,6 +17,10 @@ public class PlayerBehavior : LivingThing
     public int damage;
     public int maxHP;
 
+    public SpriteRenderer sprite;
+
+    public List<Sprite> playerSprites;//up, then clockwise
+
     public GameObject[] inventorySlots = new GameObject[3];
 
     public Item[] inventory = new Item[3];
@@ -61,6 +65,8 @@ public class PlayerBehavior : LivingThing
         }
         else if (horiz != 0 || vertic != 0)
         {
+            UpdateSprite(horiz, vertic);
+
             if(lastDirectionalInputs != new Vector2(horiz, vertic))
             {
                 counter = 101;
@@ -137,5 +143,36 @@ public class PlayerBehavior : LivingThing
         Destroy(inventory[index].gameObject);
         inventory[index] = null;
         inventorySlots[index].GetComponent<Image>().enabled = false;
+    }
+
+    void UpdateSprite(float horiz, float vertic)
+    {
+        switch (3 * horiz + vertic)
+        {
+            case (1):
+                sprite.sprite = playerSprites[0];
+                break;
+            case (4):
+                sprite.sprite = playerSprites[1];
+                break;
+            case (3):
+                sprite.sprite = playerSprites[2];
+                break;
+            case (2):
+                sprite.sprite = playerSprites[3];
+                break;
+            case (-1):
+                sprite.sprite = playerSprites[4];
+                break;
+            case (-4):
+                sprite.sprite = playerSprites[5];
+                break;
+            case (-3):
+                sprite.sprite = playerSprites[6];
+                break;
+            case (-2):
+                sprite.sprite = playerSprites[7];
+                break;
+        }
     }
 }

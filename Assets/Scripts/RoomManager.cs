@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
@@ -32,6 +33,7 @@ public class RoomManager : MonoBehaviour {
     public PlayerBehavior player;
 
     public Canvas ui;
+    public GameObject gameOverPanel;
     public Slider hpBar;
     public Text floorText;
     public Text goldText;
@@ -202,8 +204,30 @@ public class RoomManager : MonoBehaviour {
 
     private void Update()
     {
-        hpBar.value = (float)player.hp / player.maxHP;
-        goldText.text = "Gold: " + player.money;
-        totalGoldText.text = "Total Gold Collected: " + player.moneyTotal;
+        if (player.isDead)
+        {
+            gameOverPanel.SetActive(true);
+            totalGoldText.text = "Total gold collected: " + player.money;
+        }
+        else
+        {
+            gameOverPanel.SetActive(false);
+            hpBar.value = (float)player.hp / player.maxHP;
+            goldText.text = "Gold: " + player.money;
+            totalGoldText.text = "Total Gold Collected: " + player.moneyTotal;
+        }
+    }
+
+    public void ResetGame()
+    {
+        instance = null;
+
+        Destroy(enemyManager.gameObject);
+        Destroy(player.gameObject);
+        Destroy(cam.gameObject);
+        Destroy(ui.gameObject);
+        Destroy(gameObject);
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

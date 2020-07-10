@@ -9,7 +9,7 @@ public class PlayerBehavior : LivingThing
     float horiz;
     float vertic;
     int counter;
-    public Camera camera;
+    public CameraManager camera;
     public Vector3 camOffset;
     public EnemyManager enemyManager;
     public Vector2 lastDirectionalInputs;
@@ -97,7 +97,7 @@ public class PlayerBehavior : LivingThing
                 }
             }
         }
-        camera.transform.position = transform.position + camOffset;
+        camera.position = transform.position + camOffset;
         lastDirectionalInputs = new Vector2(horiz, vertic);
     }
 

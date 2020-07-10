@@ -27,7 +27,7 @@ public class RoomManager : MonoBehaviour {
     //public GameObject playerPrefab;
     public GameObject exitPrefab;
     public GameObject goldPrefab;
-    public Camera cam;
+    public CameraManager cam;
 
     public PlayerBehavior player;
 

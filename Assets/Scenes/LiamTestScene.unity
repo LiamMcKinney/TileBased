@@ -327,6 +327,11 @@ PrefabInstance:
       propertyPath: sprite
       value: 
       objectReference: {fileID: 1360761637}
+    - target: {fileID: 114904665658284410, guid: 78b7a9e2f1896e54da1fb58e534b500c,
+        type: 3}
+      propertyPath: camera
+      value: 
+      objectReference: {fileID: 1524482524}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 78b7a9e2f1896e54da1fb58e534b500c, type: 3}
 --- !u!1 &176798488
@@ -795,7 +800,7 @@ MonoBehaviour:
   exitPrefab: {fileID: 1217337262449990, guid: 95c1d6cd1b3c996438658fb073937967, type: 3}
   goldPrefab: {fileID: 1168146509283467807, guid: baa7ab88f7b3d964b96e65fbf4099b99,
     type: 3}
-  cam: {fileID: 1524482522}
+  cam: {fileID: 1524482524}
   player: {fileID: 1001420868}
   ui: {fileID: 547286352}
   hpBar: {fileID: 991696730}
@@ -1590,6 +1595,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4b1521d7042419409ef774c360fc610, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Shaking: 0
+  position: {x: 0, y: 0, z: 0}
 --- !u!224 &1581881593 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 241183820375162202, guid: 5355f999ffb58e54e8efcf2231620f16,

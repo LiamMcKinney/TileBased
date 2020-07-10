@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyBehavior : LivingThing
 {
-    public LivingThing target;
+    public PlayerBehavior target;
     Vector3 targetPos;
     float targetXDist;
     float targetYDist;
@@ -83,6 +83,7 @@ public class EnemyBehavior : LivingThing
             else if (moveVector + oldPos == targetPos)
             {
                 target.Hurt(1);
+                target.camera.Shake();
             }
         }
     }

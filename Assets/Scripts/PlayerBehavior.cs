@@ -175,4 +175,11 @@ public class PlayerBehavior : LivingThing
                 break;
         }
     }
+
+    public void Hurt(int amount)
+    {
+        base.Hurt(amount);
+        camera.Shake();
+        camera.FlashRed();
+    }
 }

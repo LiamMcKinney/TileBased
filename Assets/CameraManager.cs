@@ -9,6 +9,10 @@ public class CameraManager : MonoBehaviour
     private float ShakeIntensity;
     public Vector3 position;
 
+    public int totalRedFrames;
+    int redFramesLeft;
+    public SpriteRenderer redFlash;
+
     void Start()
     {
         Shaking = false;
@@ -29,6 +33,12 @@ public class CameraManager : MonoBehaviour
         else if (Shaking)
         {
             Shaking = false;
+        }
+
+        redFramesLeft--;
+        if(redFramesLeft < 0)
+        {
+            redFlash.enabled = false;
         }
     }
 
@@ -51,6 +61,13 @@ public class CameraManager : MonoBehaviour
         ShakeIntensity = intensity;
         ShakeDecay = decay;
         Shaking = true;
+    }
+
+
+    public void FlashRed()
+    {
+        redFlash.enabled = true;
+        redFramesLeft = totalRedFrames;
     }
 
 

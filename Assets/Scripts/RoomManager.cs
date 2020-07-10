@@ -35,6 +35,7 @@ public class RoomManager : MonoBehaviour {
     public Slider hpBar;
     public Text floorText;
     public Text goldText;
+    public Text totalGoldText;
     int floorNumber = 0;
 
     private static RoomManager instance;
@@ -203,5 +204,6 @@ public class RoomManager : MonoBehaviour {
     {
         hpBar.value = (float)player.hp / player.maxHP;
         goldText.text = "Gold: " + player.money;
+        totalGoldText.text = "Total Gold Collected: " + player.moneyTotal;
     }
 }

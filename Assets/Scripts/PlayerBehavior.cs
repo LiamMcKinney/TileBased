@@ -39,66 +39,69 @@ public class PlayerBehavior : LivingThing
     // Update is called once per frame
     void Update()
     {
-        counter++;
-        horiz = Input.GetAxisRaw("Horizontal");
-        vertic = Input.GetAxisRaw("Vertical");
-        attacking = Input.GetKey("space");
+        if (!isDead)
+        {
+            counter++;
+            horiz = Input.GetAxisRaw("Horizontal");
+            vertic = Input.GetAxisRaw("Vertical");
+            attacking = Input.GetKey("space");
 
-        bool isUsingSlot1 = Input.GetKeyDown("1");
-        bool isUsingSlot2 = Input.GetKeyDown("2");
-        bool isUsingSlot3 = Input.GetKeyDown("3");
+            bool isUsingSlot1 = Input.GetKeyDown("1");
+            bool isUsingSlot2 = Input.GetKeyDown("2");
+            bool isUsingSlot3 = Input.GetKeyDown("3");
 
-        if (isUsingSlot1 && inventory[0] != null)
-        {
-            UseItem(0);
-            enemyManager.Step();
-        }
-        else if (isUsingSlot2 && inventory[1] != null)
-        {
-            UseItem(1);
-            enemyManager.Step();
-        }
-        else if (isUsingSlot3 && inventory[2] != null)
-        {
-            UseItem(2);
-            enemyManager.Step();
-        }
-        else if (horiz != 0 || vertic != 0)
-        {
-            UpdateSprite(horiz, vertic);
-
-            if(lastDirectionalInputs != new Vector2(horiz, vertic))
+            if (isUsingSlot1 && inventory[0] != null)
             {
-                counter = 101;
+                UseItem(0);
+                enemyManager.Step();
             }
-            if (counter > 100)
+            else if (isUsingSlot2 && inventory[1] != null)
             {
-                if (!attacking)
+                UseItem(1);
+                enemyManager.Step();
+            }
+            else if (isUsingSlot3 && inventory[2] != null)
+            {
+                UseItem(2);
+                enemyManager.Step();
+            }
+            else if (horiz != 0 || vertic != 0)
+            {
+                UpdateSprite(horiz, vertic);
+
+                if (lastDirectionalInputs != new Vector2(horiz, vertic))
                 {
-                    Collider2D[] obstacles = Physics2D.OverlapBoxAll(new Vector2(horiz + transform.position.x, vertic + transform.position.y), new Vector2(.9f, .9f), 0);
-                    if (obstacles.Length == 0)
-                    {
-                        Move(horiz, vertic);
-                        enemyManager.Step();
-                        counter = 0;
-                    }
+                    counter = 101;
                 }
-                else
+                if (counter > 100)
                 {
-                    Collider2D victim = Physics2D.OverlapPoint(new Vector3(horiz, vertic, 0) + transform.position);
-                    if (victim != null)
+                    if (!attacking)
                     {
-                        if (victim.GetComponent<LivingThing>() != null)
+                        Collider2D[] obstacles = Physics2D.OverlapBoxAll(new Vector2(horiz + transform.position.x, vertic + transform.position.y), new Vector2(.9f, .9f), 0);
+                        if (obstacles.Length == 0)
                         {
-                            victim.GetComponent<LivingThing>().Hurt(damage);
+                            Move(horiz, vertic);
                             enemyManager.Step();
+                            counter = 0;
+                        }
+                    }
+                    else
+                    {
+                        Collider2D victim = Physics2D.OverlapPoint(new Vector3(horiz, vertic, 0) + transform.position);
+                        if (victim != null)
+                        {
+                            if (victim.GetComponent<LivingThing>() != null)
+                            {
+                                victim.GetComponent<LivingThing>().Hurt(damage);
+                                enemyManager.Step();
+                            }
                         }
                     }
                 }
             }
+            camera.position = transform.position + camOffset;
+            lastDirectionalInputs = new Vector2(horiz, vertic);
         }
-        camera.position = transform.position + camOffset;
-        lastDirectionalInputs = new Vector2(horiz, vertic);
     }
 
     private void Move(float x, float y)

@@ -5,7 +5,8 @@ using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
 public class RoomManager : MonoBehaviour {
-    public int dungeonSize;
+    public float dungeonSize;
+    public float sizeIncreasePerFloor;
     public Vector2 roomSize;//dimensions of a room
     Dictionary<Vector2, Room> layout;
 
@@ -18,6 +19,7 @@ public class RoomManager : MonoBehaviour {
     //values to control how many enemies spawn in each room.
     public float initialDifficulty;
     public float difficultyScaling;
+    public float difficultyIncreasePerFloor;
 
     Vector2 lastRoom;//coordinates of the last room generated
 
@@ -36,25 +38,6 @@ public class RoomManager : MonoBehaviour {
     int floorNumber = 0;
 
     private static RoomManager instance;
-    void Awake()
-    {
-        //DontDestroyOnLoad(this);
-
-        //if (instance == null)
-        //{
-        //    instance = this;
-        //}
-        //else
-        //{
-        //    instance.grid = grid;
-
-        //    Destroy(enemyManager.gameObject);
-        //    Destroy(player.gameObject);
-        //    Destroy(cam.gameObject);
-        //    Destroy(ui.gameObject);
-        //    Destroy(gameObject);
-        //}
-    }
 
     // Use this for initialization
     void Start()
@@ -91,6 +74,10 @@ public class RoomManager : MonoBehaviour {
     {
         floorNumber++;
         floorText.text = "Floor " + floorNumber;
+
+        dungeonSize += sizeIncreasePerFloor;
+
+        initialDifficulty += difficultyIncreasePerFloor;
 
         layout = new Dictionary<Vector2, Room>();
         enemyManager.enemies.Clear();
